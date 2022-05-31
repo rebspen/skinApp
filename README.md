@@ -1,2 +1,0 @@
-# skinApp
-test project
