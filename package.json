@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "seed": "npx prisma db seed",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
-    },
+  },
   "dependencies": {
     "@prisma/client": "^3.15.2",
     "next": "12.1.6",
