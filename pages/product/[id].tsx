@@ -17,8 +17,8 @@ const Home: NextPage<Props> = ({ product }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="p-10 flex justify-center flex-col items-center">
-        <h1 className="text-2xl mb-10 uppercase">{product.name}</h1>
-        <h2 className="p-4">Ingredients list</h2>
+        <h1 className="text-5xl mb-10 uppercase text-5xl ">{product.name}</h1>
+        <h2 className="p-4 text-3xl">Ingredients list</h2>
         <ul className="list-disc">
           {product.ingredients.map((ingredient, inx) => (
             <li key={inx}>{ingredient}</li>

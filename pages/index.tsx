@@ -19,16 +19,43 @@ const Home: NextPage<Props> = (props) => {
       </Head>
 
       <main className="p-10 flex justify-center flex-col items-center">
-        <h1 className="text-2xl mb-10">Products Page</h1>
-        {props.products.map((product, idx) => {
-          return (
-            <div key={idx} className="border-solid border-2 border-indigo-600 p-5 mb-4">
-              <Link href={`/product/${product.id}`}>
-                {product.name}
-              </Link>
+        <h1 className="text-5xl ">Products Page</h1>
+        <p>Check for triggering ingredients here.</p>
+        <div className="items-center px-4 flex justify-center mt-10">
+          <div className="relative mr-3">
+            <div className="absolute top-3 left-3 items-center">
+              <svg
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
             </div>
-          );
-        })}
+            <input
+              type="text"
+              className="block p-2 pl-10 w-96 bg-clay rounded-lg focus:pl-10"
+              placeholder="alcohol..."
+            />
+          </div>
+        </div>
+        <div className="p-10 flex flex-wrap">
+          {props.products.map((product, idx) => {
+            return (
+              <div
+                key={idx}
+                className="bg-beige p-5 mr-7 mb-7 rounded-lg cursor-pointer drop-shadow-md hover:drop-shadow-lg"
+              >
+                <Link href={`/product/${product.id}`}>{product.name}</Link>
+              </div>
+            );
+          })}
+        </div>
       </main>
     </div>
   );

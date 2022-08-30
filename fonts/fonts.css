@@ -1,0 +1,19 @@
+/* aboreto-regular - latin */
+@font-face {
+    font-family: 'Aboreto';
+    font-style: normal;
+    font-weight: 400;
+    src: url('aboreto-v2-latin-regular.eot');
+    /* IE9 Compat Modes */
+    src: local(''),
+        url('aboreto-v2-latin-regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('aboreto-v2-latin-regular.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('aboreto-v2-latin-regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('aboreto-v2-latin-regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('aboreto-v2-latin-regular.svg#Aboreto') format('svg');
+    /* Legacy iOS */
+}
