@@ -4,12 +4,64 @@ import getProducts from "./api/products";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Product } from "@prisma/client";
 import Link from "next/link";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useState, useCallback, useEffect, ChangeEvent } from "react";
 
 interface Props {
   products: Product[];
 }
 
 const Home: NextPage<Props> = (props) => {
+  const { data: session } = useSession();
+  const [items, setItems] = useState<Product[]>(props.products);
+  const [latestSearch, setLatestSearch] = useState<string>("");
+  const [hasIngredient, setHasIngredient] = useState<boolean>(true);
+
+  useEffect(() => {
+    search(latestSearch);
+  }, [hasIngredient]);
+
+  const search = useCallback(
+    (search: string): void => {
+      const list = props.products.reduce((acc: Product[], product) => {
+        product.ingredients.map((i: string) => {
+          if (i.toLowerCase() === search) {
+            acc.push(product);
+          }
+        });
+        return acc;
+      }, []);
+
+      const withoutList = props.products.filter((product) => {
+        let hasIng = false;
+        product.ingredients.map((i: string) => {
+          if (i.toLowerCase() === search) {
+            hasIng = true;
+          }
+        });
+        return hasIng ? null : product;
+      });
+
+      if (list.length === 0 && !search) {
+        setItems(props.products);
+      } else if (!hasIngredient) {
+        setItems(withoutList);
+      } else {
+        setItems(list);
+      }
+    },
+    [hasIngredient, props.products]
+  );
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setLatestSearch(e.target.value);
+    search(e.target.value);
+  };
+
+  const handleToggle = (): void => {
+    setHasIngredient(!hasIngredient);
+  };
+
   return (
     <div>
       <Head>
@@ -20,7 +72,43 @@ const Home: NextPage<Props> = (props) => {
 
       <main className="p-10 flex justify-center flex-col items-center">
         <h1 className="text-5xl ">Products Page</h1>
+        {session ? (
+          <div className="mt-10 mb-5">
+            <p>Hello {session.user?.email}</p>
+            <button
+              className="bg-stone text-clay font-bold py-2 px-4 rounded"
+              onClick={() => signOut()}
+            >
+              Sign out
+            </button>
+          </div>
+        ) : (
+          <div className="mt-10 mb-5">
+            <p>Not signed in</p>
+            <button
+              className="bg-stone text-clay font-bold py-2 px-4 rounded"
+              onClick={() => signIn()}
+            >
+              Sign in
+            </button>
+          </div>
+        )}
         <p>Check for triggering ingredients here.</p>
+        <label className="inline-flex relative items-center cursor-pointer mt-8">
+          <input
+            type="checkbox"
+            value=""
+            id="default-toggle"
+            className="sr-only peer"
+            onChange={handleToggle}
+          />
+          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-stone rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-stone"></div>
+          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+            {hasIngredient
+              ? "With this ingredient... "
+              : "Without this ingredient..."}
+          </span>
+        </label>
         <div className="items-center px-4 flex justify-center mt-10">
           <div className="relative mr-3">
             <div className="absolute top-3 left-3 items-center">
@@ -41,11 +129,12 @@ const Home: NextPage<Props> = (props) => {
               type="text"
               className="block p-2 pl-10 w-96 bg-clay rounded-lg focus:pl-10"
               placeholder="alcohol..."
+              onChange={handleSearch}
             />
           </div>
         </div>
         <div className="p-10 flex flex-wrap">
-          {props.products.map((product, idx) => {
+          {items.map((product, idx) => {
             return (
               <div
                 key={idx}
