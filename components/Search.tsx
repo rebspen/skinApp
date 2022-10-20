@@ -63,6 +63,7 @@ const Search: FunctionComponent<Props> = ({
             className="block p-2 pl-10 w-96 bg-clay rounded-lg focus:pl-10"
             placeholder="alcohol..."
             onChange={handleSearch}
+            name="search"
           />
         </div>
       </div>

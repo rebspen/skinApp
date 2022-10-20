@@ -62,7 +62,7 @@ const Home: NextPage<Props> = (props) => {
       </Head>
 
       <main className="p-10 flex justify-center flex-col items-center">
-        <h1 className="text-5xl ">Products Page</h1>
+        <h1 className="text-5xl">Products Page</h1>
         <User />
         <Search setLatestSearch ={setLatestSearch} setHasIngredient={setHasIngredient} search={search} hasIngredient={hasIngredient}/>
         <div className="p-10 flex flex-wrap">

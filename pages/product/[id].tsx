@@ -31,7 +31,6 @@ const Home: NextPage<Props> = ({ product }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const product = await getProduct(context.query as { id: string });
-  console.log(product);
   return {
     props: { product },
   };
